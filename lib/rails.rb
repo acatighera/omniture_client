@@ -35,14 +35,13 @@ module OmnitureClient
       end
 
       def omniture_url
-        reporter.to_url
-      end
-
-      def omniture_js
-        reporter.to_js
+        ssl = :ssl if request.ssl? && OmnitureClient::ssl_url
+        reporter.url(ssl)
       end
     end
   end
 end
 
 ActionController::Base.send(:include, OmnitureClient::ActionControllerMethods) if defined?(ActionController::Base)
+
+OmnitureClient::config(YAML::load(File.open(File.join(RAILS_ROOT, 'config', 'omniture.yml')))[RAILS_ENV]) if File.exists?(File.join(RAILS_ROOT, 'config', 'omniture.yml'))
