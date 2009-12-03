@@ -5,7 +5,7 @@ module OmnitureClient
 
     attr_reader  :controller
 
-    @var_groups = []
+    @meta_vars = []
 
     def initialize(controller)
       @controller = controller
@@ -16,8 +16,9 @@ module OmnitureClient
     end
 
     def vars
-      @vars ||= self.class.var_groups.inject([]) do |vars, grp|
-        vars << grp.values(controller) if grp
+      meta_vars = self.class.meta_vars || [] 
+      @vars ||= meta_vars.inject([]) do |vars, meta_var|
+        vars << meta_var.value(controller) if meta_var
         vars
       end
     end
@@ -27,13 +28,14 @@ module OmnitureClient
     end
 
     class << self
-      attr_reader :var_groups
+      attr_reader :meta_vars
 
-      def define_var(name, &block)
-        var_group = instance_eval("@#{name} ||= VarGroup.new(name)")
-        var_group.add_var(block)
-        var_groups << var_group unless var_groups.include?(var_group)
-        var_group
+      def var(name, delimiter = ',', &block)
+        @meta_vars ||= []
+        meta_var = instance_eval("@#{name} ||= OmnitureClient::MetaVar.new('#{name}', '#{delimiter}')")
+        meta_var.add_var(block)
+        meta_vars << meta_var unless meta_vars.include?(meta_var)
+        meta_var
       end
     end
   end

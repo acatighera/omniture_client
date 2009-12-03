@@ -10,9 +10,5 @@ module OmnitureClient
       end
       @value = value
     end
-
-    def to_param
-      value.to_param(name)
-    end
   end
 end

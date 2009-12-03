@@ -1,12 +1,12 @@
 module OmnitureClient
-  class VarGroup
-    attr_reader :name
+  class MetaVar
+    attr_reader :name, :delimiter
     attr_accessor :value_procs
 
-    def initialize(name)
+    def initialize(name, delimiter)
       @name = name
       @value_procs = []
-      @composite = composite
+      @delimiter
     end
 
     def add_var(value_proc)
@@ -14,11 +14,7 @@ module OmnitureClient
     end
 
     def value(scope)
-      Var.new(name, value_procs.map{ |p| scope.instance_eval(p) })
+      Var.new(name, value_procs.map{ |p| scope.instance_eval(&p) }.join(delimiter))
     end
-
-    private
-
-    attr_reader :composite
   end
 end
