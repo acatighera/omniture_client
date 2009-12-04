@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alexandru Catighera"]
-  s.date = %q{2009-12-03}
+  s.date = %q{2009-12-04}
   s.email = %q{alex@patch.com}
   s.extra_rdoc_files = [
     "README"
@@ -26,7 +26,8 @@ Gem::Specification.new do |s|
      "lib/omniture_client/printer.rb",
      "lib/omniture_client/var.rb",
      "lib/rails.rb",
-     "omniture_client.gemspec"
+     "omniture_client.gemspec",
+     "sample/omniture.yml"
   ]
   s.homepage = %q{http://github.com/acatighera/omniture_client}
   s.rdoc_options = ["--charset=UTF-8"]

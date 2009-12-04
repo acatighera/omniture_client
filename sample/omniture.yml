@@ -1,0 +1,47 @@
+development:
+  base_url: http://102.112.2O7.net
+  ssl_url: https://102.112.2O7.net
+  suite: suite1
+  version: G.4--NS
+  aliases:
+    prop1: c1
+    prop2: c2
+    prop3: c3
+    prop4: c4
+    prop5: c5
+    prop6: c6
+    prop7: c7
+    prop8: c8
+    prop9: c9
+    prop10: c10
+    prop11: c11
+    prop12: c12
+    prop13: c13
+    prop14: c14
+    prop15: c15
+    prop16: c16
+    prop17: c17
+    prop18: c18
+    prop19: c19
+    prop20: c20
+
+    e_var1: v1
+    e_var2: v2
+    e_var3: v3
+    e_var4: v4
+    e_var5: v5
+    e_var6: v6
+    e_var7: v7
+    e_var8: v8
+    e_var9: v9
+    e_var10: v10
+    e_var11: v11
+    e_var12: v12
+    e_var13: v13
+    e_var14: v14
+    e_var15: v15
+    e_var16: v16
+    e_var17: v17
+    e_var18: v18
+    e_var19: v19
+    e_var20: v20

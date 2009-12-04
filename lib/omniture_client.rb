@@ -1,7 +1,9 @@
+require File.dirname(__FILE__) + '/omniture_client/printer'
 require File.dirname(__FILE__) + '/omniture_client/base'
 require File.dirname(__FILE__) + '/omniture_client/var'
 require File.dirname(__FILE__) + '/omniture_client/meta_var'
 require File.dirname(__FILE__) + '/omniture_client/controller_methods'
+require 'cgi'
 
 class BasicReporter < OmnitureClient::Base; end
 
