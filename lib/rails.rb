@@ -18,6 +18,11 @@ module OmnitureClient
         flash[:omniture] ||= {}
       end
 
+      def omniture_url
+        ssl = :ssl if request.ssl? && OmnitureClient::ssl_url
+        reporter.url(ssl)
+      end      
+
       private
 
       def set_reporter
@@ -32,11 +37,6 @@ module OmnitureClient
         omniture_flash.each do |name, value|
           reporter.add_var(name, value)
         end        
-      end
-
-      def omniture_url
-        ssl = :ssl if request.ssl? && OmnitureClient::ssl_url
-        reporter.url(ssl)
       end
     end
   end
