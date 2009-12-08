@@ -2,7 +2,7 @@
 General description
 
 ## Installation
-  gem install omniture_client
+    gem install omniture_client
 
 ## Omniture on Rails
 ### Configuration
