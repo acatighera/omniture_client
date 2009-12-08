@@ -2,7 +2,7 @@ module OmnitureClient
   class Var
     attr_reader :name, :value
     def initialize(name, value)
-      @name = name
+      @name = name.to_s
       if OmnitureClient::aliases && OmnitureClient::aliases[name]
         @name = OmnitureClient::aliases[name]
       else
