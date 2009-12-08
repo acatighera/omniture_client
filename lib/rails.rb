@@ -27,7 +27,7 @@ module OmnitureClient
 
       def set_reporter
         @reporter ||= begin
-          "#{controller_path.classify}Reporter".constantize.new(self)
+          "#{controller_path.classify.pluralize}Reporter".constantize.new(self)
          rescue NameError
            BasicReporter.new(self)
          end        
