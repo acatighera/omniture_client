@@ -24,7 +24,9 @@ module OmnitureClient
     end
 
     def add_var(name, value)
-      vars << Var.new(name, value)
+      self.class.var(name) do
+        value
+      end
     end
 
     class << self

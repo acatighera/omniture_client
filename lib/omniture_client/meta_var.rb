@@ -6,7 +6,7 @@ module OmnitureClient
     def initialize(name, delimiter)
       @name = name
       @value_procs = []
-      @delimiter
+      @delimiter = delimiter
     end
 
     def add_var(value_proc)
@@ -14,7 +14,7 @@ module OmnitureClient
     end
 
     def value(scope)
-      Var.new(name, value_procs.map{ |p| scope.instance_eval(&p) }.join(delimiter))
+      Var.new(name, value_procs.map{ |p| scope.instance_eval(&p) }.flatten.uniq.join(delimiter))
     end
   end
 end
