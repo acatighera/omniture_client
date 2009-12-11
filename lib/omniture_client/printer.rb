@@ -9,7 +9,8 @@ module OmnitureClient
 
     def query
       vars.inject([]) do |query, var|
-        query << var_to_query(var)
+        query << var_to_query(var) if var.value && var.value != ""
+        query
       end.join('&')
     end
 
