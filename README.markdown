@@ -28,7 +28,7 @@ You must configure the Omniture namespace, suite(s), version that you wish to us
       version: G.4--NS
       aliases:
         search_term: c1
-        movie_titles: c2
+        movie_titles: e1
         referrer: r
 
 As well as the omniture.yml you need to also add the `app/reporters` directory to your load path. So in your enviroment file add the 2 following lines:
@@ -135,7 +135,7 @@ Sometime there is a need to track events or other custom variables on the server
 
 
 ## Omniture Client for Sinatra (or other ruby web framework)
-This gem works with any ruby web framework. However, some of the functionality like server-side tracking is only implemented for Rails. Here is an example of using Omniture Client to track a Sinatra app.
+This gem works with any ruby web framework. However, some of the functionality like server-side tracking is only implemented for Rails. Here is an example using Omniture Client to track a Sinatra app.
     # application.rb
     require 'omniture_client'
 
@@ -174,5 +174,29 @@ You will also need to render the img tag in your views since this is the bit tha
 
 
 ## Javascript Implementation
-A javascript implementation is slightly more obstrusive; however, there are a few extra reports you get access to in the Omniture web tool (ie. click map). So all the server-side code remains the same except all the param names change. It is important to note that the param names change when using a javascript implementation. For example, instead of `c1` we use `s.prop1`. To have a javascript implementation, remove the img tag from your layout and add something like following script tag.
+A javascript implementation is slightly more obstrusive; however, there are a few extra reports you get access to in the Omniture web tool (ie. click map). So all the server-side code remains the same except for the the variable names. For example, instead of `c1` we use `s.prop1`. To have a javascript implementation, you also have to remove the img tag from your layout and add the reporter variables to the s_code.js. I will use a RJS for this example but you could can handle it a number of ways.
 
+    # config/omniture.yml
+    development:
+      base_url: http://102.112.2O7.net
+      ssl_url: https://102.112.2O7.net
+      suite: suite1
+      version: G.4--NS
+      aliases:
+        search_term: prop1
+        movie_titles: prop2
+
+### Javascript
+Here are the following script tags you will need. If you includes these DO NOT render the img tag shown in the examples above.
+
+    <script language="javaScript" src="//INSERT-DOMAIN-AND-PATH-TO-CODE-HERE/s_code.js"></script> 
+    <script language="javaScript"> 
+      //<![CDATA[
+        <% @controller.reporter.vars.each do |var| %>
+          s.<%= var.name %>="<%= var.value %>";
+        <% end %>
+        s.t();
+      //]]>
+    </script> 
+
+###### Copyright (c) 2009 Alexandru Catighera, released under MIT license
