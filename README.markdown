@@ -199,4 +199,4 @@ Here are the following script tags you will need. If you includes these DO NOT r
       //]]>
     </script> 
 
-###### Copyright (c) 2009 Alexandru Catighera, released under MIT license
+##### Copyright (c) 2009 Alexandru Catighera, released under MIT license
