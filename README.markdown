@@ -1,5 +1,5 @@
 # OmnitureClient
-General description
+This gem integrates Omniture SiteCatalyst into your web app. 
 
 ## Installation
     gem install omniture_client
@@ -184,13 +184,13 @@ A javascript implementation is slightly more obstrusive; however, there are a fe
       version: G.4--NS
       aliases:
         search_term: prop1
-        movie_titles: prop2
+        movie_titles: e_var1
 
 ### Javascript
 Here are the following script tags you will need. If you includes these DO NOT render the img tag shown in the examples above.
 
-    <script language="javaScript" src="//INSERT-DOMAIN-AND-PATH-TO-CODE-HERE/s_code.js"></script> 
-    <script language="javaScript"> 
+    <script language="javascript" src="//INSERT-DOMAIN-AND-PATH-TO-CODE-HERE/s_code.js"></script> 
+    <script language="javascript"> 
       //<![CDATA[
         <% @controller.reporter.vars.each do |var| %>
           s.<%= var.name %>="<%= var.value %>";
