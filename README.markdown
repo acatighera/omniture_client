@@ -39,7 +39,7 @@ As well as the omniture.yml you need to also add the `app/reporters` directory t
     end
 
 Lastly, you need to specify which of your controllers you want to track. In most cases you will want to track all controllers so add this line to your application controller:
-    # app/controllers/application.rb
+    # app/controllers/application_controller.rb
     class ApplicationController < ActionController::Base
       reports_to_omniture
     end
