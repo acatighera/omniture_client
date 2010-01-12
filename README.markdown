@@ -39,10 +39,10 @@ As well as the omniture.yml you need to also add the `app/reporters` directory t
     end
 
 Lastly, you need to specify which of your controllers you want to track. In most cases you will want to track all controllers so add this line to your application controller:
-		# app/controllers/application.rb
-		class ApplicationController < ActionController::Base
-			reports_to_omniture
-		end
+    # app/controllers/application.rb
+    class ApplicationController < ActionController::Base
+      reports_to_omniture
+    end
 
 ### View
 The view code is straight foward. This is img tag is what actually sends the information to Omniture. It should probably be the last element in the body tag.
@@ -61,8 +61,8 @@ Here is an example of a controller we would like to track:
     # app/controller/movies_controller.rb
     class MoviesController < ApplicationController
 			
-			# Uncomment the next line if it is not in your application controller
-			# reports_to_omniture
+    # Uncomment the next line if it is not in your application controller
+    # reports_to_omniture
 
       def index
         @movies = Movie.all
