@@ -46,4 +46,4 @@ end
 
 ActionController::Base.send(:include, OmnitureClient::ActionControllerMethods) if defined?(ActionController::Base)
 
-OmnitureClient::config(YAML::load(File.open(File.join(RAILS_ROOT, 'config', 'omniture.yml')))[RAILS_ENV]) if File.exists?(File.join(RAILS_ROOT, 'config', 'omniture.yml'))
+OmnitureClient::config(YAML::load(File.open('config/omniture.yml'))[Rails.env]) if File.exists?('config/omniture.yml')
