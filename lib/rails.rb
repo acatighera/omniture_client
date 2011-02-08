@@ -6,9 +6,10 @@ module OmnitureClient
     end
 
     module ClassMethods
-      def reports_to_omniture
+      def reports_to_omniture(options = {})
         include InstanceMethods
-        before_filter :set_reporter, :assign_flash_vars
+        before_filter :set_reporter, options
+        before_filter :assign_flash_vars, options
         attr_accessor :reporter
       end
     end
