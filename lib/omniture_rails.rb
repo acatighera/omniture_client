@@ -2,7 +2,6 @@ module OmnitureClient
   module ActionControllerMethods
 
     def self.included(base)
-      base.send(:before_filter, :report_omniture_if_events_in_flash)
       base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
       attr_accessor :reporter
@@ -10,12 +9,11 @@ module OmnitureClient
 
     module ClassMethods
       def reports_to_omniture(options = {})
-        before_filter :set_reporter, options
+        before_filter :set_reporter#, options
       end
     end
 
     module InstanceMethods
-
       def omniture_flash
         @omniture_flash ||= (flash[:omniture] || {})
       end
@@ -28,8 +26,14 @@ module OmnitureClient
       private
 
       def set_reporter
-        self.reporter = select_reporter
-        report_omniture_if_events_in_flash
+        if self.class.respond_to?(:reports_to_omniture) && defined?(self.class::OMNITURE_ACTIONS) && self.class::OMNITURE_ACTIONS.include?(action_name.to_sym)
+          self.reporter = select_reporter
+        end
+
+        if flash_exists?
+          self.reporter ||= select_reporter
+          assign_flash_vars
+        end
       end
 
       def select_reporter
@@ -40,20 +44,17 @@ module OmnitureClient
         end
       end
 
-      def report_omniture_if_events_in_flash
-        if flash[:omniture] && flash[:omniture][:events]
-          if self.class.respond_to?(:reports_to_omniture) && defined?(self.class::OMNITURE_ACTIONS) && !self.class::OMNITURE_ACTIONS.include?(action_name)
-            self.reporter ||= select_reporter
-            assign_flash_vars
-          end
-        end
+      def flash_exists?
+        omniture_flash && omniture_flash[:events]
       end
 
       def assign_flash_vars
         omniture_flash.each do |name, value|
           self.reporter.add_var(name, value)
         end
-        flash[:omniture].clear if omniture_flash.present?
+        if omniture_flash.present?
+          flash[:omniture].clear
+        end
       end
     end
   end
