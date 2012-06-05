@@ -32,6 +32,15 @@ module OmnitureClient
     class << self
       attr_reader :meta_vars
 
+      def clear_meta_vars
+        if @meta_vars.present?
+          @meta_vars.each do |var|
+            instance_eval("@#{var.name} = nil")
+          end
+          @meta_vars = []
+        end
+      end
+
       def var(name, delimiter = ',', &block)
         @meta_vars ||= []
         meta_var = instance_eval("@#{name} ||= OmnitureClient::MetaVar.new('#{name}', '#{delimiter}')")
