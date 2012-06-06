@@ -14,11 +14,7 @@ module OmnitureClient
     end
 
     def value(scope)
-      if self.name == 'events'
-        Var.new(name, value_procs.map{ |p| scope.instance_eval(&p) }.flatten.uniq.join(delimiter))
-      else
-        Var.new(name, value_procs.last(1).map{ scope.instance_eval(&p) }.flatten.uniq.join(delimiter))
-      end
+      Var.new(name, value_procs.map{ |p| scope.instance_eval(&p) }.flatten.uniq.join(delimiter))
     end
   end
 end
