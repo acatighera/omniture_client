@@ -4,11 +4,13 @@ module OmnitureClient
     include Printer
 
     attr_reader  :controller
+    attr_accessor :flash_vars
 
     @meta_vars = []
 
     def initialize(controller)
       @controller = controller
+      @flash_vars = []
     end
 
     def printer
@@ -17,7 +19,8 @@ module OmnitureClient
 
     def vars
       meta_vars = self.class.meta_vars || []
-      @vars ||= meta_vars.inject([]) do |vars, meta_var|
+      meta_vars += flash_vars
+      meta_vars.inject([]) do |vars, meta_var|
         vars << meta_var.value(controller) if meta_var
         vars
       end

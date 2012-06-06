@@ -4,12 +4,13 @@ module OmnitureClient
     def self.included(base)
       base.extend(ClassMethods)
       base.send(:include, InstanceMethods)
+      base.send(:before_filter, :set_reporter)#, options
       attr_accessor :reporter
     end
 
     module ClassMethods
       def reports_to_omniture(options = {})
-        before_filter :set_reporter#, options
+        # OK
       end
     end
 
@@ -26,7 +27,8 @@ module OmnitureClient
       private
 
       def set_reporter
-        if self.class.respond_to?(:reports_to_omniture) && defined?(self.class::OMNITURE_ACTIONS) && self.class::OMNITURE_ACTIONS.include?(action_name.to_sym)
+        if self.class.respond_to?(:reports_to_omniture) && defined?(self.class::OMNITURE_ACTIONS) &&
+           self.class::OMNITURE_ACTIONS.include?(action_name.to_sym)
           self.reporter = select_reporter
         end
 
@@ -49,8 +51,20 @@ module OmnitureClient
       end
 
       def assign_flash_vars
+        existing_names = self.reporter.class.meta_vars.map(&:name)
+
         omniture_flash.each do |name, value|
-          self.reporter.add_var(name, value)
+          flag = true
+          v = if existing_names.include? name.to_s
+            flag = false
+            self.reporter.class.meta_vars.detect{|e| e.name == name.to_s} ||
+            self.reporter.flash_vars.detect{|e| e.name == name.to_s}
+          else
+            OmnitureClient::MetaVar.new(name.to_s, ',')
+          end
+          v.add_var(lambda{|s| value})
+          self.reporter.flash_vars << v if flag
+          existing_names << name.to_s
         end
         if omniture_flash.present?
           flash[:omniture].clear
