@@ -33,7 +33,7 @@ module OmnitureClient
         end
 
         if flash_exists?
-          self.reporter ||= select_reporter
+          self.reporter ||= BasicReporter.new(self)
           assign_flash_vars
         end
       end
