@@ -18,8 +18,14 @@ module OmnitureClient
     end
 
     def vars
-      meta_vars = self.class.meta_vars || []
-      meta_vars += flash_vars
+      meta_vars = flash_vars || []
+
+      self.class.meta_vars.each do |mv|
+        unless meta_vars.map(&:name).include? mv.name
+          meta_vars << mv
+        end
+      end
+
       meta_vars.inject([]) do |vars, meta_var|
         vars << meta_var.value(controller) if meta_var
         vars

@@ -51,20 +51,10 @@ module OmnitureClient
       end
 
       def assign_flash_vars
-        existing_names = self.reporter.class.meta_vars.map(&:name)
-
         omniture_flash.each do |name, value|
-          flag = true
-          v = if existing_names.include? name.to_s
-            flag = false
-            self.reporter.class.meta_vars.detect{|e| e.name == name.to_s} ||
-            self.reporter.flash_vars.detect{|e| e.name == name.to_s}
-          else
-            OmnitureClient::MetaVar.new(name.to_s, ',')
-          end
+          v = OmnitureClient::MetaVar.new(name.to_s, ',')
           v.add_var(lambda{|s| value})
-          self.reporter.flash_vars << v if flag
-          existing_names << name.to_s
+          self.reporter.flash_vars << v
         end
         if omniture_flash.present?
           flash[:omniture].clear
