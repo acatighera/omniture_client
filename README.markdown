@@ -13,8 +13,8 @@ You create reporters in 'app/reporters' directory, which correspond to your cont
     rails_project/
     ../app
     ..../reporters
-    ..../movies_reporter.rb
-    ..../basic_reporter.rb
+    ....../movies_reporter.rb
+    ....../basic_reporter.rb
     ../config
     ..../omniture.yml
 
