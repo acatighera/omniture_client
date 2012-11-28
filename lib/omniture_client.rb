@@ -20,5 +20,5 @@ module OmnitureClient
 end
 
 if defined?(Rails)
-  require File.dirname(__FILE__) + '/rails' 
+  require File.dirname(__FILE__) + '/omniture_rails' 
 end

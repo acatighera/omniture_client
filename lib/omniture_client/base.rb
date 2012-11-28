@@ -1,14 +1,16 @@
 module OmnitureClient
   class Base
-    
+
     include Printer
 
     attr_reader  :controller
+    attr_accessor :flash_vars
 
     @meta_vars = []
 
     def initialize(controller)
       @controller = controller
+      @flash_vars = []
     end
 
     def printer
@@ -16,8 +18,15 @@ module OmnitureClient
     end
 
     def vars
-      meta_vars = self.class.meta_vars || [] 
-      @vars ||= meta_vars.inject([]) do |vars, meta_var|
+      meta_vars = flash_vars || []
+
+      self.class.meta_vars.each do |mv|
+        unless meta_vars.map(&:name).include? mv.name
+          meta_vars << mv
+        end
+      end
+
+      meta_vars.inject([]) do |vars, meta_var|
         vars << meta_var.value(controller) if meta_var
         vars
       end
@@ -31,6 +40,15 @@ module OmnitureClient
 
     class << self
       attr_reader :meta_vars
+
+      def clear_meta_vars
+        if @meta_vars.present?
+          @meta_vars.each do |var|
+            instance_eval("@#{var.name} = nil")
+          end
+          @meta_vars = []
+        end
+      end
 
       def var(name, delimiter = ',', &block)
         @meta_vars ||= []
